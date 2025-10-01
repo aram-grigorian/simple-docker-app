@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Retro Web App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #19caad 0%, #170727 100%);
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border: 3px solid #00ff00;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #00ff00;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            }
+            to {
+                text-shadow: 0 0 20px #00ff00, 0 0 30px #00ff00;
+            }
+        }
+
+        .terminal {
+            background: #000;
+            border: 2px solid #00ff00;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .terminal-line {
+            margin: 5px 0;
+        }
+
+        .prompt {
+            color: #ffff00;
+        }
+
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .retro-button {
+            background: #000;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            padding: 12px 25px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .retro-button:hover {
+            background: #00ff00;
+            color: #000;
+            box-shadow: 0 0 20px #00ff00;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: #000;
+            border: 2px solid #00ff00;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            color: #ffff00;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #00ff00;
+            margin-top: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px dashed #00ff00;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        .clock {
+            text-align: center;
+            font-size: 1.5em;
+            color: #ffff00;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ RETRO WEB APP ⚡</h1>
+            <p style="color: #ffff00; margin-top: 10px;">Welcome to the digital frontier</p>
+        </div>
+
+        <div class="clock" id="clock">00:00:00</div>
+
+        <div class="terminal">
+            <div class="terminal-line"><span class="prompt">user@retroapp:~$</span> system status</div>
+            <div class="terminal-line">System initialized successfully...</div>
+            <div class="terminal-line">Database connection: <span style="color: #00ff00;">ACTIVE</span></div>
+            <div class="terminal-line">All systems operational<span class="blink">_</span></div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="stat1">0</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat2">0</div>
+                <div class="stat-label">Active Sessions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat3">0</div>
+                <div class="stat-label">Data Records</div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button class="retro-button" onclick="showMessage()">► Execute</button>
+            <a href="/hello" class="retro-button">► Wanna see an ugly page?</a>
+            <button class="retro-button" onclick="refreshStats()">► Refresh</button>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 Retro Web Systems • Powered by Flask & MySQL</p>
+        </div>
+    </div>
+
+    <script>
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Animate stats on load
+        function animateValue(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            const range = end - start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                obj.textContent = current;
+                if (current === end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
+
+        // Initialize stats
+        window.addEventListener('load', () => {
+            animateValue('stat1', 0, 42, 1000);
+            animateValue('stat2', 0, 7, 800);
+            animateValue('stat3', 0, 128, 1200);
+        });
+
+        // Button actions
+        function showMessage() {
+            alert('🚀 System command executed successfully!');
+        }
+
+        function refreshStats() {
+            const randomValue1 = Math.floor(Math.random() * 100);
+            const randomValue2 = Math.floor(Math.random() * 20);
+            const randomValue3 = Math.floor(Math.random() * 200);
+            
+            animateValue('stat1', parseInt(document.getElementById('stat1').textContent), randomValue1, 800);
+            animateValue('stat2', parseInt(document.getElementById('stat2').textContent), randomValue2, 800);
+            animateValue('stat3', parseInt(document.getElementById('stat3').textContent), randomValue3, 800);
+        }
+    </script>
+</body>
+</html>
