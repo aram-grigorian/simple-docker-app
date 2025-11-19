@@ -15,8 +15,6 @@ This project was my journey into:
 - **Retro UI**: Classic terminal-inspired interface with green-on-black styling
 - **Flask Backend**: Lightweight Python web framework
 - **MySQL Database**: Persistent data storage with Docker volumes
-- **Live Clock**: Real-time updates on the homepage
-- **Database Query**: Test endpoint that fetches data from MySQL
 
 ## 🏗️ Project Structure
 
